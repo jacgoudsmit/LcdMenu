@@ -17,6 +17,10 @@
 
 #define MENU_STACKDEPTH (10)
 
+#ifndef NoAutoProto
+#define NoAutoProto(x) x
+#endif
+
 #ifndef MENU_EXT
 #define MENU_EXT extern
 #endif
@@ -165,9 +169,10 @@ menu_Process(
 //! Show something on the output device
 //
 // This is provided by the application and called by the menu module
+NoAutoProto(
 void
 menu_ShowCB(
-  MenuShow displaymode);
+  MenuShow displaymode));
 
 
 /////////////////////////////////////////////////////////////////////////////
