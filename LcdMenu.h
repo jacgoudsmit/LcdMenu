@@ -10,6 +10,12 @@
 #define LCDMENU_H
 
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+
 /////////////////////////////////////////////////////////////////////////////
 // MACROS
 /////////////////////////////////////////////////////////////////////////////
@@ -33,32 +39,32 @@
 
 //---------------------------------------------------------------------------
 // Parameter passed to display callback function
-enum MenuShow
+typedef enum
 {
   MENUSHOW_MENU,
   MENUSHOW_ITEM,
-};
+} MenuShow;
 
 
 //---------------------------------------------------------------------------
 // Parameter passed to processing function
-enum MenuAction
+typedef enum
 {
   MENUACTION_NONE,                      // No action
   MENUACTION_PREV,                      // Switch to previous menu item
   MENUACTION_NEXT,                      // Switch to next menu item
   MENUACTION_SELECT,                    // Select the current item
-};
+} MenuAction;
 
 
 //---------------------------------------------------------------------------
 // Parameter passed to navigation function
-enum MenuNav
+typedef enum
 {
   MENUNAV_MENU,                         // Entering a menu
   MENUNAV_CHANGE,                       // Current menu item has changed
   MENUNAV_SELECT,                       // User pressed Select button
-};
+} MenuNav;
 
 
 //---------------------------------------------------------------------------
@@ -92,12 +98,12 @@ typedef MENUNAVFUNC_PROTO(MenuNavFunc_t);
 
 //---------------------------------------------------------------------------
 // Type definition for a menu item
-struct MenuItem
+typedef struct MenuItem_t
 {
   prog_char        *m_name;             // EEPROM based string, NULL=end list
   MenuItemFunc_t   *m_func;             // Optional item function
   void             *m_parm;             // Parameter to pass to function
-};
+} MenuItem;
 #define MENUITEMLIST(name) MenuItem name[] PROGMEM = {
 #define MENUITEMLISTEND { NULL, NULL, NULL } };
 #define MENUITEM(name, func, parm) { name, func, (void*)parm },
@@ -105,21 +111,21 @@ struct MenuItem
 
 //---------------------------------------------------------------------------
 // Type definition for a menu
-struct Menu
+typedef struct Menu_t
 {
   prog_char        *m_menuname;         // EEPROM based string for screen
   MenuItem PROGMEM *m_items;            // EEPROM based list of items
   MenuNavFunc_t    *m_navfunc;          // Optional navigation function
-};
+} Menu;
 
 
 //---------------------------------------------------------------------------
 // Menu navigation stack item
-struct MenuState
+typedef struct MenuState_t
 {
   Menu PROGMEM     *m_pmenu;            // Pointer to menu
   byte              m_itemindex;        // Selected item
-};
+} MenuState;
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -179,5 +185,9 @@ menu_ShowCB(
 // END
 /////////////////////////////////////////////////////////////////////////////
 
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
