@@ -23,10 +23,6 @@ extern "C"
 
 #define MENU_STACKDEPTH (10)
 
-#ifndef NoAutoProto
-#define NoAutoProto(x) x
-#endif
-
 #ifndef MENU_EXT
 #define MENU_EXT extern
 #endif
@@ -97,6 +93,15 @@ typedef MENUNAVFUNC_PROTO(MenuNavFunc_t);
 
 
 //---------------------------------------------------------------------------
+// Function type for processing function
+//
+// This function type processes the input to navigate through the menu.
+// Alternative functions can be used to e.g. edit a string or a number
+#define MENUPROCFUNC_PROTO(name) void name(MenuAction action)
+typedef MENUPROCFUNC_PROTO(MenuProcFunc_t);
+
+
+//---------------------------------------------------------------------------
 // Type definition for a menu item
 typedef struct MenuItem_t
 {
@@ -161,24 +166,23 @@ MenuItemFunc_t
 //---------------------------------------------------------------------------
 //! Initialize menu
 void menu_Init(
-  Menu *pmenu);
+  Menu PROGMEM *pmenu);
 
 
 //---------------------------------------------------------------------------
 //! Process menu action
-void 
-menu_Process(
-  MenuAction action);
+//
+// Processes the input from the front panel (up/down/select).
+MENU_EXT MenuProcFunc_t *menu_Process;
 
 
 //---------------------------------------------------------------------------
 //! Show something on the output device
 //
 // This is provided by the application and called by the menu module
-NoAutoProto(
 void
 menu_ShowCB(
-  MenuShow displaymode));
+  MenuShow displaymode);
 
 
 /////////////////////////////////////////////////////////////////////////////

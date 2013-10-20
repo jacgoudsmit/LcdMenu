@@ -94,20 +94,8 @@ MENUITEMFUNC_PROTO(menu_LeaveMenu)
 
 
 //---------------------------------------------------------------------------
-//! Initialize menu
-void menu_Init(
-  Menu *pmenu)
-{
-  menu_gpCurState = &menu_gStack[-1]; // Following line will change index to 0
-  menu_EnterMenu(pmenu);
-}
-
-
-//---------------------------------------------------------------------------
 //! Process menu action
-void
-menu_Process(
-  MenuAction action)
+MENUPROCFUNC_PROTO(menu_ProcessMenu)
 {
   switch(action)
   {
@@ -174,6 +162,17 @@ menu_Process(
   default:
     ; // Nothing to do here
   }
+}
+
+
+//---------------------------------------------------------------------------
+//! Initialize menu
+void menu_Init(
+  Menu PROGMEM *pmenu)
+{
+  menu_Process = menu_ProcessMenu;
+  menu_gpCurState = &menu_gStack[-1]; // Following line will change index to 0
+  menu_EnterMenu(pmenu);
 }
 
 
